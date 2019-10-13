@@ -1,0 +1,687 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>PR&Aacute;CTICA 04. Convoluci&oacute;n y correlaci&oacute;n</title><meta name="generator" content="MATLAB 9.2"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2019-10-13"><meta name="DC.source" content="ASySPrac04MendezJosue.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>PR&Aacute;CTICA 04. Convoluci&oacute;n y correlaci&oacute;n</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Integrantes</a></li><li><a href="#2">Objetivos</a></li><li><a href="#3">Introducci&oacute;n</a></li><li><a href="#4">Desarrollo</a></li><li><a href="#14">Ap&eacute;ndices</a></li><li><a href="#15">Referencias</a></li></ul></div><h2 id="1">Integrantes</h2><div><ul><li>Cuevas Morales Sa&uacute;l As&iacute;s</li><li>Gonzalez Z&uacute;&ntilde;iga Alexis Bryan</li><li>M&eacute;ndez Pallares Josu&eacute;</li><li>Vallejo Camarillo Mois&eacute;s Eduardo</li></ul></div><h2 id="2">Objetivos</h2><div><ol><li>Conocer m&eacute;todos b&aacute;sicos de integraci&oacute;n num&eacute;rica.</li><li>Manipulaci&oacute;n de instrucciones en MATLAB.</li><li>Simular convoluciones y correlaciones de se&ntilde;ales continuas.</li><li>Simular convoluciones y correlaciones de se&ntilde;ales discretas.</li></ol></div><h2 id="3">Introducci&oacute;n</h2><p><b>INTERGACI&Oacute;N NUM&Eacute;RICA.</b></p><p>Como ya se sabe se usa el m&eacute;todo de integraci&oacute;n para poder determinar el &aacute;rea que se encuentra encerrada entre la curva de una funci&oacute;n y dos puntos en el eje de las x.</p><p>Para poder determinar el valor de la integral se debe de cumplir con el teorema fundamental del c&aacute;lculo:</p><p>Si f es integrable y <img src="ASySPrac04MendezJosue_eq13504538809792555139.png" alt="$$\frac{\mathrm{d} F(x)}{\mathrm{d} x}=f(x)$"> entonces:</p><p><img src="ASySPrac04MendezJosue_eq16817905199163689891.png" alt="$$\int_{a}^{b}f(x)dx=F(b)-F(a)$$"></p><p>A veces se presentan casos en los que la integral es muy dif&iacute;cil o incluso imposible de calcular y en estos casos se utilizan las t&eacute;cnicas de integraci&oacute;n para poder determinar su resultado. Un consejo para cuando no se pueda encontrar el &aacute;rea bajo la curva es no enfocarse tanto en la integral si no en el problema mismo y ver que se puede colocar un pol&iacute;gono para poder tener un &aacute;rea aproximada a la deseada.</p><p>En el ejemplo se tiene la funci&oacute;n <img src="ASySPrac04MendezJosue_eq14478400592765037054.png" alt="$e^{-x^2}$"> y evaluada entre 1 y -1, asi que se dibuja un rect&aacute;ngulo de 2x1 para si poder determinar un &aacute;rea aproximada que en este caso vemos que el &aacute;rea deseada es menor a 2.</p><p><b>FUNCIONES DE NEWTON-COTES</b></p><p>Este se basa en que la funci&oacute;n puede ser derivado un numero de veces y su derivda es continua y con la teor&iacute;a de lagrange se puede deducir que:</p><p><img src="ASySPrac04MendezJosue_eq13142964647106053595.png" alt="$$f(x)=P(x)+\frac{f^{(n+1)}(\varepsilon&#xA;(x))}{(n+1)!}(x-x_{0})(x-x_{1})...(x-x_{n})$$"></p><p>Formulas usadas en estas funciones:</p><p><img src="ASySPrac04MendezJosue_eq01056269978726897643.png" alt="$x_{0}=a$"></p><p><img src="ASySPrac04MendezJosue_eq00331310322815514266.png" alt="$x_{n}=b$"></p><p><img src="ASySPrac04MendezJosue_eq07698017641151756797.png" alt="$x_{i}=x_{0}+ih$"></p><p><img src="ASySPrac04MendezJosue_eq15169675678412950366.png" alt="$h=\frac{(b-a)}{n}$"></p><p><img src="ASySPrac04MendezJosue_eq18358530620617509784.png" alt="$i=0,1,2,3,...,n$"></p><p>Siendo n el grado del polinomio deseado.</p><p><b>REGLA DEL TRAPECIO</b></p><p>En esta regla se considera n=1 y se sustituyen los datos en la siguiente formula:</p><p><img src="ASySPrac04MendezJosue_eq07384863813333622901.png" alt="$\int_{x_0}^{x_1}f(x)dx=\frac{h}{2}[f(x_0)+f(x_1)]-\frac{h^{3}}{12}{f}''(\varepsilon)$"></p><p>donde <img src="ASySPrac04MendezJosue_eq04934585835479885722.png" alt="$\varepsilon$"> es un n&uacute;mero que se encuentra entre <img src="ASySPrac04MendezJosue_eq00349689335557330151.png" alt="$x_0$"> y <img src="ASySPrac04MendezJosue_eq06613056106014670631.png" alt="$x_1$">. Esta formula solamente utiliza solo dos puntos los cuales serian el inicial y el final adem&aacute;s de la derivada de la funci&oacute;n a integrar.</p><p>En el ejemplo de <img src="ASySPrac04MendezJosue_eq08033158945167540203.png" alt="$e^{-x^{2}}$"> se sustituyen los datos de:</p><p><img src="ASySPrac04MendezJosue_eq08917388677015107225.png" alt="$x_0=-1$"></p><p><img src="ASySPrac04MendezJosue_eq08460574678402644439.png" alt="$x_1=-1$"></p><p>Por lo tanto: <img src="ASySPrac04MendezJosue_eq11123518192852390236.png" alt="$h=\frac{(1-(-1))}{1}=2$"></p><p><img src="ASySPrac04MendezJosue_eq11424036590008830977.png" alt="$i=0,1$"></p><p><img src="ASySPrac04MendezJosue_eq15728036512346332691.png" alt="$x_{i}=-1+2i$"></p><p>Quedando:</p><p><img src="ASySPrac04MendezJosue_eq00987392714725248615.png" alt="$\int_{-1}^{1}e^{-x^{2}}dx=\frac{2}{2}[e^{-1}-e^{-1}]-\frac{8}{12}[-2e^{-\varepsilon^{2}}(1-2\varepsilon^{2})]$"></p><p>en <img src="ASySPrac04MendezJosue_eq07610507634831146749.png" alt="$-1<\varepsilon<1$"></p><p><img src="ASySPrac04MendezJosue_eq10774084909931130819.png" alt="$0.7357+\frac{4}{3}e^{-3\varepsilon}(1-2\varepsilon^{2})$"></p><p>en <img src="ASySPrac04MendezJosue_eq07610507634831146749.png" alt="$-1<\varepsilon<1$"></p><p><b>REGLA DE SIMPSON</b></p><p>En esta regla se considera a n=2 y se obtienen los siguientes datos:</p><p><img src="ASySPrac04MendezJosue_eq01056269978726897643.png" alt="$x_{0}=a$"></p><p><img src="ASySPrac04MendezJosue_eq00926360123370829447.png" alt="$x_{2}=b$"></p><p><img src="ASySPrac04MendezJosue_eq05314047623889973557.png" alt="$x_{i}=-1+i$"></p><p><img src="ASySPrac04MendezJosue_eq04071922185991276103.png" alt="$h=\frac{(b-a)}{2}$"></p><p><img src="ASySPrac04MendezJosue_eq01823414822277661546.png" alt="$i=0,1,2$"></p><p>y la siguiente f&oacute;rmula:</p><p><img src="ASySPrac04MendezJosue_eq06617395104071309556.png" alt="$\int_{x_0}^{x_2}f(x)dx=\frac{h}{3}[f(x_0)+4f(x_1)+f(x_2)]-\frac{h^{5}}{90}{f}^{(4)}(\varepsilon)$"></p><p>Y como en el caso anterior el <img src="ASySPrac04MendezJosue_eq04934585835479885722.png" alt="$\varepsilon$"> es un numero entre el n&uacute;mero inicial y el final. N&oacute;tese que a diferencia del caso anterior en este se usa una cuarta derivada.</p><p>Ahora tratando de resolver el problema de <img src="ASySPrac04MendezJosue_eq08033158945167540203.png" alt="$e^{-x^{2}}$"> se tienen los siguientes datos:</p><p><img src="ASySPrac04MendezJosue_eq02057761652713749660.png" alt="$x_{0}=-1$"></p><p><img src="ASySPrac04MendezJosue_eq08906751736011631463.png" alt="$x_{1}=-1+1=0$"></p><p><img src="ASySPrac04MendezJosue_eq17599294798886975974.png" alt="$x_{2}=-1+2=1$"></p><p><img src="ASySPrac04MendezJosue_eq11759772789662615393.png" alt="$h=\frac{1-(-1)}{2}=1$"></p><p><img src="ASySPrac04MendezJosue_eq01823414822277661546.png" alt="$i=0,1,2$"></p><p><img src="ASySPrac04MendezJosue_eq05314047623889973557.png" alt="$x_{i}=-1+i$"></p><p>y sustituy&eacute;ndolos en la f&oacute;rmula:</p><p><img src="ASySPrac04MendezJosue_eq02536177758462629702.png" alt="$\int_{-1}^{1}e^{-x^{2}}dx=\frac{1}{3}[e^{-1}+4e^{0}+e^{-1}]-\frac{1}{90}[-4e^{-\varepsilon^{2}}(-4\varepsilon^{4}+12\varepsilon^{2}-3)]$"></p><p><img src="ASySPrac04MendezJosue_eq05404346051573182754.png" alt="$\int_{-1}^{1}e^{-x^{2}}dx=1.5785+\frac{2}{45}e^{-\varepsilon^{2}}(-4\varepsilon^{4}+12\varepsilon^{2}-3)$"></p><p>en <img src="ASySPrac04MendezJosue_eq07610507634831146749.png" alt="$-1<\varepsilon<1$"></p><p><b>REGLA DE 3/8 DE SIMPSON</b></p><p>En esta regla se considera a n=3 y por lo tanto se consiguen los siguientes datos:</p><p><img src="ASySPrac04MendezJosue_eq01056269978726897643.png" alt="$x_{0}=a$"></p><p><img src="ASySPrac04MendezJosue_eq18424229842987356267.png" alt="$x_{3}=b$"></p><p><img src="ASySPrac04MendezJosue_eq05314047623889973557.png" alt="$x_{i}=-1+i$"></p><p><img src="ASySPrac04MendezJosue_eq04967404606810944985.png" alt="$h=\frac{(b-a)}{3}$"></p><p><img src="ASySPrac04MendezJosue_eq10052648702682174882.png" alt="$i=0,1,2,3$"></p><p>y la siguiente f&oacute;rmula:</p><p><img src="ASySPrac04MendezJosue_eq08094133296993851839.png" alt="$\int_{x_0}^{x_3}f(x)dx=\frac{3h}{8}[f(x_0)+3f(x_1)+3f(x_2)+f(x_3)]-\frac{3h^{5}}{80}{f}^{(4)}(\varepsilon)$"></p><p>Y como en los casos anteriores el <img src="ASySPrac04MendezJosue_eq04934585835479885722.png" alt="$\varepsilon$"> es un numero entre el numero inicial y el final.</p><p>Ahora tratando de resolver el problema de <img src="ASySPrac04MendezJosue_eq08033158945167540203.png" alt="$e^{-x^{2}}$"> se tienen los siguientes datos:</p><p><img src="ASySPrac04MendezJosue_eq02057761652713749660.png" alt="$x_{0}=-1$"></p><p><img src="ASySPrac04MendezJosue_eq13466900370329836215.png" alt="$x_{3}=1$"></p><p><img src="ASySPrac04MendezJosue_eq09745663497735213612.png" alt="$x_{1}=-1+\frac{2}{3}=-\frac{1}{3}$"></p><p><img src="ASySPrac04MendezJosue_eq04791311014961376123.png" alt="$x_{2}=-1+\frac{4}{3}=\frac{1}{3}$"></p><p><img src="ASySPrac04MendezJosue_eq10833448877148461434.png" alt="$x_{i}=-1+\frac{2}{3}i$"></p><p><img src="ASySPrac04MendezJosue_eq10341988343314776059.png" alt="$h=\frac{1-(-1)}{3}=\frac{2}{3}$"></p><p><img src="ASySPrac04MendezJosue_eq10052648702682174882.png" alt="$i=0,1,2,3$"></p><p>Sustituyendo los datos en la f&oacute;rmula se obtiene lo siguiente:</p><p><img src="ASySPrac04MendezJosue_eq06162125853540121383.png" alt="$\int_{-1}^{1}e^{-x^{2}}dx=\frac{3}{8}(\frac{2}{3})[e^{-1}+3e^{-\frac{1}{4}}+3e^{-\frac{1}{4}}+e^{-1}]-\frac{3}{80}(\frac{2}{3})^{5}e^{-\varepsilon^{2}}(-4\varepsilon^{2}+12\varepsilon^{2}-3)$"></p><p><img src="ASySPrac04MendezJosue_eq02829490031477537577.png" alt="$\int_{-1}^{1}e^{-x^{2}}dx=1.5261-\frac{8}{405}e^{-\varepsilon^{2}}(-4\varepsilon^{2}+12\varepsilon^{2}-3)$"></p><p><b>REGLA COMPUESTA DEl TRAPECIOS</b></p><p>Esta regla define la siguiente aproximaci&oacute;n</p><p><img src="ASySPrac04MendezJosue_eq14015248469712311206.png" alt="$\int_{x_0}^{x_1}f(x)dx\approx \frac{h}{2}[f(x_0)+f(x_1)]$"></p><p>Para que esto sea una igualdad se le agrega el factor de error para que quede de la siguiente manera:</p><p><img src="ASySPrac04MendezJosue_eq07584820408912303160.png" alt="$\int_{a}^{b}f(x)dx=\frac{h}{2}[f(a)+2\sum_{j=1}^{n-1}f(x_j)+f(b)]-\frac{b-a}{12}h^2{f}''(u)$"></p><p>donde u <img src="ASySPrac04MendezJosue_eq04202927574850129020.png" alt="$\epsilon$">(a,b) y n es el n&uacute;mero de intervalos</p><p>Adem&aacute;s: <img src="ASySPrac04MendezJosue_eq14663764134541110566.png" alt="$h=\frac{b-a}{n}$"></p><p>y <img src="ASySPrac04MendezJosue_eq16768775477297197484.png" alt="$x_j=a+jh$">; donde <img src="ASySPrac04MendezJosue_eq01796272836323825559.png" alt="$j=0,1,2,3,...,n$"></p><p>Para resolver el problema de <img src="ASySPrac04MendezJosue_eq08033158945167540203.png" alt="$e^{-x^{2}}$"> se tienen los siguientes datos:</p><p>n=10</p><p><img src="ASySPrac04MendezJosue_eq16052271863658366773.png" alt="$h=\frac{1-(-1)}{10}=0.2$"></p><p><img src="ASySPrac04MendezJosue_eq09677546837272932894.png" alt="$j=0,1,2,3,...,10$"></p><p>y <img src="ASySPrac04MendezJosue_eq08917388677015107225.png" alt="$x_0=-1$">; <img src="ASySPrac04MendezJosue_eq02054998863442511814.png" alt="$x_1=-0.8$">; <img src="ASySPrac04MendezJosue_eq13853471575325736314.png" alt="$x_2=-0.6$">; ... <img src="ASySPrac04MendezJosue_eq02288174651325363466.png" alt="$x_9=0.8$">; <img src="ASySPrac04MendezJosue_eq14352753386125667675.png" alt="$x_10=1$"></p><p>Sustituyendo datos nos queda:</p><p><img src="ASySPrac04MendezJosue_eq02064884538350554602.png" alt="$\int_{1}^{-1}e^{-x^{2}}dx=\frac{0.2}{2}[e^{-1}+2\sum_{j=1}^{n-1}e^{-x_j^{2}}+e^{-1}]-\frac{2}{12}(0.2)^2[-2e^{-u^{2}}(1-2u^2)]$"></p><p><img src="ASySPrac04MendezJosue_eq15546921628447175408.png" alt="$1.4887+0.0133e^{-u^{2}}(1-2u^2)$"></p><p><b>REGLA COMPUESTA DE SIMPSON</b></p><p>Esta regla define la siguiente aproximaci&oacute;n</p><p><img src="ASySPrac04MendezJosue_eq15884151978610820859.png" alt="$\int_{x_0}^{x_2}f(x)dx\approx \frac{h}{3}[f(x_0)+4f(x_1)+f(x_2)]$"></p><p>Para que esto sea una igualdad se le agrega el factor de error para que quede de la siguiente manera:</p><p><img src="ASySPrac04MendezJosue_eq14097349491577329634.png" alt="$\int_{a}^{b}f(x)dx=\frac{h}{3}[f(a)+2\sum_{j=1}^{(n/2)-1}f(x_2j)+4\sum_{j=1}^{n/2}f(x_2j-1)+f(b)]-\frac{b-a}{180}h^4{f}^{(4)}(u)$"></p><p>donde u <img src="ASySPrac04MendezJosue_eq04202927574850129020.png" alt="$\epsilon$">(a,b) y n es el par n&uacute;mero de intervalos</p><p>Adem&aacute;s: <img src="ASySPrac04MendezJosue_eq14663764134541110566.png" alt="$h=\frac{b-a}{n}$"> (paso)</p><p>y <img src="ASySPrac04MendezJosue_eq16768775477297197484.png" alt="$x_j=a+jh$">; donde <img src="ASySPrac04MendezJosue_eq06588244132155468295.png" alt="$j=0,1,2,...,n$"></p><p>Para resolver el problema de <img src="ASySPrac04MendezJosue_eq08033158945167540203.png" alt="$e^{-x^{2}}$"> se tienen los siguientes datos:</p><p>n=10</p><p><img src="ASySPrac04MendezJosue_eq16052271863658366773.png" alt="$h=\frac{1-(-1)}{10}=0.2$"></p><p><img src="ASySPrac04MendezJosue_eq09677546837272932894.png" alt="$j=0,1,2,3,...,10$"></p><p>y <img src="ASySPrac04MendezJosue_eq08917388677015107225.png" alt="$x_0=-1$">; <img src="ASySPrac04MendezJosue_eq02054998863442511814.png" alt="$x_1=-0.8$">; <img src="ASySPrac04MendezJosue_eq13853471575325736314.png" alt="$x_2=-0.6$">; ... <img src="ASySPrac04MendezJosue_eq02288174651325363466.png" alt="$x_9=0.8$">; <img src="ASySPrac04MendezJosue_eq14352753386125667675.png" alt="$x_10=1$"></p><p>Sustituyendo datos nos queda:</p><p><img src="ASySPrac04MendezJosue_eq06572920951868103076.png" alt="$\int_{-1}^{1}e^{-x^{2}}dx=\frac{0.2}{3}[e^{-1}+2\sum_{j=1}^{4}e^{-x_{2j}^{2}}+4\sum_{j=1}^{5}e^{-x_{2j-1}^{2}}+e^{-1}]-\frac{2}{180}(0.2)^4[-4e^{-u^{2}}(-4u^4+12u^2-3)]$"></p><p><img src="ASySPrac04MendezJosue_eq04985102085964225163.png" alt="$\int_{-1}^{1}e^{-x^{2}}dx=1.4936+0.000021e^{-u^{2}}(-4u^4+12u^2-3)$"></p><p>donde <img src="ASySPrac04MendezJosue_eq08024365031295643456.png" alt="$-1< u< 1$"></p><p><b>CUADRATURA GAUSSIANA</b></p><p>Esta regla define la siguiente aproximaci&oacute;n</p><p><img src="ASySPrac04MendezJosue_eq10372096025604952982.png" alt="$\int_{a}^{b}f(x)dx\approx \sum_{i=1}^{n}C_if(x_i)$"></p><p>donde 2n son los par&aacute;metros.</p><p>Se usan polinomios de Legendre, en vex de polinomios de Lagrange; estos polinomios son polinomios que se ocupan en (-1,1).</p><p>Resultados de los polinomios de Legendre.</p><p>Si <img src="ASySPrac04MendezJosue_eq15324096348478421560.png" alt="$P_n(x)$"> es un polinomios de Legendre de grado n, sus ra&iacute;ces son reales y son (<img src="ASySPrac04MendezJosue_eq06613056106014670631.png" alt="$x_1$">,$x_2$,...,$x_n$).</p><p>Adem&aacute;s: <img src="ASySPrac04MendezJosue_eq11215760624742301010.png" alt="$C_i=\int_{1}^{-1}\prod_{n}^{j=1}\frac{x-x_j}{x_c-x_j}dx$"></p><p>As&iacute; que, <img src="ASySPrac04MendezJosue_eq08215995706278703390.png" alt="$\int_{-1}^{1}P(x)dx=\sum_{i=1}^{n}C_iP(x_i)$"></p><p>donde <img src="ASySPrac04MendezJosue_eq16755899821882845402.png" alt="$j\neq i$"> y P(x)es un polinomio de grado menor que 2n.</p><p>Ahora para resolver el problema de <img src="ASySPrac04MendezJosue_eq08033158945167540203.png" alt="$e^{-x^{2}}$">, se tiene que</p><p><img src="ASySPrac04MendezJosue_eq04469899510266943355.png" alt="$\int_{-1}^{1}f(x)dx\approx \sum_{i=1}^{n}C_iP(x_i)$"></p><p><img src="ASySPrac04MendezJosue_eq07267549591494757984.png" alt="$t=\frac{2x-a-b}{b-a}$">; por lo tanto <img src="ASySPrac04MendezJosue_eq02761917166597877545.png" alt="$x=\frac{1}{2}[(b-a)t+a+b]$"></p><p>Sustituyendo datos</p><p><img src="ASySPrac04MendezJosue_eq05003005325474997182.png" alt="$\int_{-1}^{1}e^{-x^{2}}dx\approx e^{-(0.5773502692)^2}+e^{-(0.5773502692)^2}$"></p><p><img src="ASySPrac04MendezJosue_eq06855957663388932206.png" alt="$\int_{-1}^{1}e^{-x^{2}}dx\approx 1.4331$"></p><p><img src="ASySPrac04MendezJosue_eq11082351030733811039.png" alt="$\int_{-1}^{1}e^{-x^{2}}dx\approx 0.5555555556e^{-(0.7745466692)^2}+0.8888888889+0.5555555556e^{-(0.7745466692)^2}$"></p><p><img src="ASySPrac04MendezJosue_eq17451855822556928035.png" alt="$\int_{-1}^{1}e^{-x^{2}}dx\approx 1.4986$"></p><h2 id="4">Desarrollo</h2><p><b>Problema 1.</b> Para el PR04 reporte la grafica de la simulaci&oacute;n n&uacute;merica de la convoluci&oacute;n y compare con el resultado an&aacute;litico que obtuvo para el problema 1, esto es, su pr&aacute;ctica tendr&aacute; que incluir una llamada a la funci&oacute;nn convconm y posteriormente se tendr&aacute; que mostrar (mediante el Publish) la gr&aacute;fica tanto de las se&ntilde;ales involucradas como el resultado de la convoluci&oacute;n, y en esta &uacute;ltima gr&aacute;ficara su resultado analitico, se tendr&aacute; que incluir el resultado analitico.</p><pre class="codeinput">x = @(t) exp(-t).*(t&gt;=0&amp;t&lt;1);
+h = @(t) t.*(t&gt;=-1&amp;t&lt;1);
+convconm(x,h)
+</pre><img vspace="5" hspace="5" src="ASySPrac04MendezJosue_01.png" alt=""> <img vspace="5" hspace="5" src="ASySPrac04MendezJosue_02.png" alt=""> <p>Gif de la simulaci&oacute;n:</p><p><img vspace="5" hspace="5" src="C:\Users\Usuario\Desktop\Josu%C3%A9\3er Semestre\ASyS\Pr%C3%A1ctica04\html\P04_1.gif" alt=""> </p><p><b>Problema 2.</b> Para el PR05 reporte la grafica de la simulaci&oacute;n n&uacute;merica de la correalci&oacute;n y compare con el resultado an&aacute;litico que obtuvo para el problema e), esto es, su pr&aacute;ctica tendr&aacute; que incluir una llamada a la funci&oacute;nn convconm y posteriormente se tendr&aacute; que mostrar (mediante el Publish) la gr&aacute;fica tanto de las se&ntilde;ales involucradas como el resultado de su correlaci&oacute;n, y en esta &uacute;ltima graficara su resultado analitico, se tendr&aacute; que incluir el resultado analitico.</p><pre class="codeinput">x = @(t) heaviside(t) - 2*heaviside(t-3) + heaviside(t-4);
+h = @(t) x(-t);
+convconm(x,h)
+</pre><img vspace="5" hspace="5" src="ASySPrac04MendezJosue_03.png" alt=""> <p>Gif de la simulaci&oacute;n:</p><p><img vspace="5" hspace="5" src="C:\Users\Usuario\Desktop\Josu%C3%A9\3er Semestre\ASyS\Pr%C3%A1ctica04\html\P04_2.gif" alt=""> </p><p><b>Problema 3.</b> Realice la simuaci&oacute;n de la convoluci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1.1.</p><pre class="codeinput">nc = -3:3;
+c = @(n) 3*n.*(n&gt;=-3&amp;n&lt;=3);
+nd = -2:2;
+d = @(n) -2*n.*(n&gt;=-2&amp;n&lt;=0) + 2*n.*(n&gt;=0&amp;n&lt;=2);
+convdisc([nc;c(nc)],[nd;d(nd)])
+</pre><img vspace="5" hspace="5" src="ASySPrac04MendezJosue_04.png" alt=""> <p>Gif de la simulaci&oacute;n:</p><p><img vspace="5" hspace="5" src="C:\Users\Usuario\Desktop\Josu%C3%A9\3er Semestre\ASyS\Pr%C3%A1ctica04\html\P04_3.gif" alt=""> </p><p><b>Problema 4.</b> Realice la simulaci&oacute;n de la correlaci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1.1.</p><pre class="codeinput">nc = -3:3;
+c = @(n) 3*n.*(n&gt;=-3&amp;n&lt;=3);
+nd = -2:2;
+d = @(n) -2*n.*(n&gt;=-2&amp;n&lt;=0) + 2*n.*(n&gt;=0&amp;n&lt;=2);
+d1 = @(n) d(-n);
+convdisc([nc;c(nc)],[nd;d1(nd)])
+</pre><img vspace="5" hspace="5" src="ASySPrac04MendezJosue_05.png" alt=""> <p>Gif de la simulaci&oacute;n:</p><p><img vspace="5" hspace="5" src="C:\Users\Usuario\Desktop\Josu%C3%A9\3er Semestre\ASyS\Pr%C3%A1ctica04\html\P04_4.gif" alt=""> </p><p><b>Problema 5.</b> Realice la la convoluci&oacute;n de las se&ntilde;ales (c) con (d) del problema 3.1.1 utilizando el comando conv de MATLAB, muestre el c&oacute;digo utilizado y gr&aacute;fique el resultado, sugerencia: Utilice las propiedades de traslaci&oacute;n de la convoluci&oacute;n.</p><pre class="codeinput">C=@(n) (3*n).*(n&gt;=-3 &amp; n&lt;=3);
+D=@(n) ((-2*n).*(n&gt;=-2 &amp; n&lt;0))+((2*n).*(n&gt;=0 &amp; n&lt;=2));
+N=-6:1:6;
+W=conv(C(N),D(-N),<span class="string">'same'</span>);
+stem(N,W)
+</pre><img vspace="5" hspace="5" src="ASySPrac04MendezJosue_06.png" alt=""> <h2 id="14">Ap&eacute;ndices</h2><p>C&oacute;digo de funci&oacute;n convconm.</p><pre class="language-matlab"><span class="keyword">function</span> convconm(x,h)
+figure (1) <span class="comment">% Se crea una figura para hacer las gr&aacute;ficas</span>
+dtau = 0.005; <span class="comment">% Base de los rectangulos para realizar la integral</span>
+tau = -1:dtau:4; <span class="comment">% Intervalo de visualizaci&oacute;n del resultado</span>
+ti = 0; <span class="comment">% Indice para el vector de resultados</span>
+tvec = -.25:.1:3.75; <span class="comment">% traslaciones de t, cuantas integrales se calulan</span>
+y = NaN*zeros(1, length (tvec)); <span class="comment">% Resultados de acuerdo a cuantos t</span>
+<span class="keyword">for</span> t = tvec, <span class="comment">% Cantidad de traslaciones</span>
+    ti = ti+1; <span class="comment">% Indice para guardar el resultado (indice del tiempo)</span>
+    xh = x(t-tau).*h(tau); <span class="comment">% resultado de la multiplicaci&oacute;n</span>
+    lxh = length(xh); <span class="comment">% longitud del resultado</span>
+    y(ti) = sum(xh.*dtau); <span class="comment">% Base por altura, aproximaci&oacute;n de la integral</span>
+    subplot (2,1,1), <span class="comment">% gr&aacute;fica de 2 x 1 (primera)</span>
+    plot(tau, h(tau), <span class="string">'r-'</span>, tau, x(t-tau), <span class="string">'g--'</span>, t, 0, <span class="string">'ob'</span>); <span class="comment">%graficas</span>
+    axis ([tau(1) tau(end) -2.0 2.5]); <span class="comment">% l&iacute;mites de los ejes</span>
+    patch([tau(1:end-1); tau(1:end-1); tau(2:end); tau(2:end)],<span class="keyword">...</span>
+    [zeros(1,lxh-1);xh(1:end-1);xh(2:end);zeros(1,lxh-1)],<span class="keyword">...</span>
+    [.8 .8 .8], <span class="string">'edgecolor'</span>, <span class="string">'none'</span>);
+    xlabel(<span class="string">'\tau'</span>); <span class="comment">% Texto del eje X</span>
+    legend(<span class="string">'h(\tau)'</span>, <span class="string">'x(t-\tau)'</span>,<span class="string">'t'</span>,<span class="string">'h(\tau)x(t-\tau)'</span>)<span class="comment">% Caja de Texto</span>
+    subplot (2, 1, 2)  <span class="comment">% gr&aacute;fica de 2 x 1 (segunda)</span>
+    plot (tvec, y, <span class="string">'k'</span>, tvec (ti), y(ti), <span class="string">'ok'</span>);
+    xlabel (<span class="string">'t'</span>);
+    ylabel (<span class="string">'y(t) = \int h(\tau)x(t-\tau) d\tau'</span>);
+    axis ([tau(1) tau(end) -1.0 2.0]); <span class="comment">% l&iacute;mites del eje</span>
+    grid; <span class="comment">% malla</span>
+    drawnow; <span class="comment">% efecto de movimiento continuo</span>
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><p>C&oacute;digo de funci&oacute;n convdisc.</p><pre class="language-matlab"><span class="keyword">function</span> convdisc(x1,x2)
+Tam1 = size(x1(1,:));
+Tam2 = size(x2(1,:));
+T1 = Tam1(2);
+T2 = Tam2(2);
+T3 = T1+T2-1;
+vec1 = zeros(1,T1+2*T2-2);
+vec2 = zeros(1,T1+2*T2-2);
+Tec2 = -(T2-1):(T1+T2-2);
+size(vec2);
+size(Tec2);
+zeros(2,T3);
+x3(1,:)=0:T3-1;
+x3(1,:)=x3(1,:)+x1(1,1)+x2(1,1);
+vec1(1,T2:T2+T1-1)=x1(2,:);
+figure (1)
+hFig = figure(1);
+set(hFig, <span class="string">'Position'</span>, [0 0 1000 1000])
+filename = <span class="string">'testAnimated.gif'</span>;
+ttt=1;
+<span class="keyword">for</span> m=0:T1+T2-2
+    vec2(1,1+m:T2+m)=fliplr(x2(2,:));
+    x3(2,m+1)=sum(vec1.*vec2);
+    subplot(4,1,4)
+    stem(x3(1,:),x3(2,:),<span class="string">'r'</span>,<span class="string">'LineWidth'</span>,3)
+    axis([Tec2(1),T1+2*T2-2,  min(x3(2,:))-1 max(x3(2,:))+1])
+    ylim(<span class="string">'auto'</span>)
+    ylabel(<span class="string">'x_3[n]'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+    xlabel(<span class="string">'n'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+    grid <span class="string">on</span>
+    subplot(4,1,1)
+    stem(x2(1,:),x2(2,:),<span class="string">'k'</span>,<span class="string">'LineWidth'</span>,3)
+    ylabel(<span class="string">'x_2[m]'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+    xlabel(<span class="string">'m'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+    title(<span class="string">'CONVOLUCI&oacute;N'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+    grid <span class="string">on</span>
+    axis([Tec2(1),T1+2*T2-2, min(x2(2,:))-1 max(x2(2,:))+1])
+    ylim(<span class="string">'auto'</span>)
+    subplot(4,1,2)
+    stem(x1(1,:),x1(2,:),<span class="string">'b'</span>,<span class="string">'LineWidth'</span>,3)
+    ylabel(<span class="string">'x_1[m]'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+    xlabel(<span class="string">'m'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+    grid <span class="string">on</span>
+    axis([Tec2(1),T1+2*T2-2, min(x1(2,:))-1 max(x1(2,:))+1])
+    ylim(<span class="string">'auto'</span>)
+    subplot(4,1,3)
+    stem(Tec2,vec2(1,:),<span class="string">'g'</span>,<span class="string">'LineWidth'</span>,3)
+    axis([Tec2(1),T1+2*T2-2,min(vec2)-1, max(vec2)+1 ])
+    ylim(<span class="string">'auto'</span>)
+    ylabel(<span class="string">'x_2[n-m]'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+    xlabel(<span class="string">'m'</span>,<span class="string">'FontWeight'</span>,<span class="string">'bold'</span>,<span class="string">'FontSize'</span>,16);
+    grid <span class="string">on</span>
+    drawnow;
+    pause(0.4)
+    vec2 = zeros(1,T1+2*T2-2);
+    frame = getframe(hFig);
+    im = frame2im(frame);
+    [imind,cm] = rgb2ind(im,256);
+    <span class="comment">% Write to the GIF File</span>
+    <span class="keyword">if</span> ttt == 1
+        imwrite(imind,cm,filename,<span class="string">'gif'</span>, <span class="string">'Loopcount'</span>,inf);
+    <span class="keyword">else</span>
+        imwrite(imind,cm,filename,<span class="string">'gif'</span>,<span class="string">'WriteMode'</span>,<span class="string">'append'</span>);
+    <span class="keyword">end</span>
+    ttt=ttt+1;
+<span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><h2 id="15">Referencias</h2><div><ul><li>B. P. Lathi. (2005). Linear Systems and Signals. 198 Madison Avenue, New York, New York 10016: Oxford University Press.</li><li>Mart&iacute;nez, R. [Mate y as&iacute;] (2018, Abril 1). "M&eacute;todos num&eacute;ricos: Teorema fundamental del C&aacute;lculo, Integraci&oacute;n 1". Recuperado de: <a href="https://www.youtube.com/watch?v=OFHAN-WwLEw&amp;list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&amp;index=1">https://www.youtube.com/watch?v=OFHAN-WwLEw&amp;list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&amp;index=1</a></li><li>Mart&iacute;nez, R. [Mate y as&iacute;] (2018, Abril 1). "M&eacute;todos num&eacute;ricos: Newton-Cotes, regla del trapecio, Integraci&oacute;n 2". Recuperado de: <a href="https://www.youtube.com/watch?v=Fe79KWPf0Do&amp;list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&amp;index=2">https://www.youtube.com/watch?v=Fe79KWPf0Do&amp;list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&amp;index=2</a></li><li>Mart&iacute;nez, R. [Mate y as&iacute;] (2018, Abril 1). "M&eacute;todos num&eacute;ricos: Newton-Cotes, regla de Simpson, regla de 3/8 de Simpson, Integraci&oacute;n 3". Recuperado de: <a href="https://www.youtube.com/watch?v=Ykgdo9Sr354&amp;list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&amp;index=3">https://www.youtube.com/watch?v=Ykgdo9Sr354&amp;list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&amp;index=3</a></li><li>Mart&iacute;nez, R. [Mate y as&iacute;] (2018, Abril 1). "M&eacute;todos num&eacute;ricos: regla del trapecio compuesta , regla de Simpson compuesta, Integraci&oacute;n 4". Recuperado de: <a href="https://www.youtube.com/watch?v=UJMZviPb6GE&amp;list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&amp;index=4">https://www.youtube.com/watch?v=UJMZviPb6GE&amp;list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&amp;index=4</a></li><li>Mart&iacute;nez, R. [Mate y as&iacute;] (2018, Abril 1). "M&eacute;todos num&eacute;ricos: Cuadratura Gaussiana, Integraci&oacute;n 5". Recuperado de: <a href="https://www.youtube.com/watch?v=6i4N328QbpY&amp;list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&amp;index=5">https://www.youtube.com/watch?v=6i4N328QbpY&amp;list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&amp;index=5</a></li></ul></div><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2017a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% PRÁCTICA 04. Convolución y correlación
+
+%% Integrantes
+%
+% * Cuevas Morales Saúl Asís
+% * Gonzalez Zúñiga Alexis Bryan
+% * Méndez Pallares Josué
+% * Vallejo Camarillo Moisés Eduardo
+% 
+%% Objetivos
+%
+% # Conocer métodos básicos de integración numérica.
+% # Manipulación de instrucciones en MATLAB.
+% # Simular convoluciones y correlaciones de señales continuas.
+% # Simular convoluciones y correlaciones de señales discretas.
+%
+%% Introducción
+% 
+% *INTERGACIÓN NUMÉRICA.*
+% 
+% Como ya se sabe se usa el método de integración para poder determinar el
+% área que se encuentra encerrada entre la curva de una función y dos puntos
+% en el eje de las x.
+% 
+% Para poder determinar el valor de la integral se debe de cumplir con el
+% teorema fundamental del cálculo:
+% 
+% Si f es integrable y $$\frac{\mathrm{d} F(x)}{\mathrm{d} x}=f(x)$
+% entonces:
+% 
+% $$\int_{a}^{b}f(x)dx=F(b)-F(a)$$
+% 
+% A veces se presentan casos en los que la integral es muy difícil o incluso
+% imposible de calcular y en estos casos se utilizan las técnicas de integración
+% para poder determinar su resultado. Un consejo para cuando no se pueda
+% encontrar el área bajo la curva es no enfocarse tanto en la integral si no
+% en el problema mismo y ver que se puede colocar un polígono para poder
+% tener un área aproximada a la deseada.
+% 
+% En el ejemplo se tiene la función $e^{-x^2}$ y evaluada entre 1 y -1, asi que
+% se dibuja un rectángulo de 2x1 para si poder determinar un área aproximada
+% que en este caso vemos que el área deseada es menor a 2.
+% 
+% *FUNCIONES DE NEWTON-COTES*
+% 
+% Este se basa en que la función puede ser derivado un numero de veces y su
+% derivda es continua y con la teoría de lagrange se puede deducir que:
+% 
+% $$f(x)=P(x)+\frac{f^{(n+1)}(\varepsilon
+% (x))}{(n+1)!}(x-x_{0})(x-x_{1})...(x-x_{n})$$
+% 
+% Formulas usadas en estas funciones:
+% 
+% $x_{0}=a$
+% 
+% $x_{n}=b$
+% 
+% $x_{i}=x_{0}+ih$
+% 
+% $h=\frac{(b-a)}{n}$
+% 
+% $i=0,1,2,3,...,n$
+% 
+% Siendo n el grado del polinomio deseado.
+% 
+% *REGLA DEL TRAPECIO*
+% 
+% En esta regla se considera n=1 y se sustituyen los datos en la siguiente
+% formula:
+% 
+% $\int_{x_0}^{x_1}f(x)dx=\frac{h}{2}[f(x_0)+f(x_1)]-\frac{h^{3}}{12}{f}''(\varepsilon)$
+% 
+% donde $\varepsilon$ es un número que se encuentra entre $x_0$ y $x_1$. Esta
+% formula solamente utiliza solo dos puntos los cuales serian el inicial y
+% el final además de la derivada de la función a integrar.
+% 
+% En el ejemplo de $e^{-x^{2}}$ se sustituyen los datos de:
+% 
+% $x_0=-1$
+% 
+% $x_1=-1$
+% 
+% Por lo tanto: $h=\frac{(1-(-1))}{1}=2$
+% 
+% $i=0,1$
+% 
+% $x_{i}=-1+2i$
+% 
+% Quedando:
+% 
+% $\int_{-1}^{1}e^{-x^{2}}dx=\frac{2}{2}[e^{-1}-e^{-1}]-\frac{8}{12}[-2e^{-\varepsilon^{2}}(1-2\varepsilon^{2})]$
+% 
+% en $-1<\varepsilon<1$
+% 
+% $0.7357+\frac{4}{3}e^{-3\varepsilon}(1-2\varepsilon^{2})$
+% 
+% en $-1<\varepsilon<1$
+%
+% *REGLA DE SIMPSON*
+% 
+% En esta regla se considera a n=2 y se obtienen los siguientes datos:
+% 
+% $x_{0}=a$
+% 
+% $x_{2}=b$
+% 
+% $x_{i}=-1+i$
+% 
+% $h=\frac{(b-a)}{2}$
+% 
+% $i=0,1,2$
+% 
+% y la siguiente fórmula:
+% 
+% $\int_{x_0}^{x_2}f(x)dx=\frac{h}{3}[f(x_0)+4f(x_1)+f(x_2)]-\frac{h^{5}}{90}{f}^{(4)}(\varepsilon)$
+% 
+% Y como en el caso anterior el $\varepsilon$ es un numero entre el número
+% inicial y el final. Nótese que a diferencia del caso anterior en este se
+% usa una cuarta derivada.
+% 
+% Ahora tratando de resolver el problema de $e^{-x^{2}}$ se tienen los siguientes
+% datos:
+% 
+% $x_{0}=-1$
+% 
+% $x_{1}=-1+1=0$
+% 
+% $x_{2}=-1+2=1$
+% 
+% $h=\frac{1-(-1)}{2}=1$
+% 
+% $i=0,1,2$
+% 
+% $x_{i}=-1+i$
+% 
+% y sustituyéndolos en la fórmula:
+% 
+% $\int_{-1}^{1}e^{-x^{2}}dx=\frac{1}{3}[e^{-1}+4e^{0}+e^{-1}]-\frac{1}{90}[-4e^{-\varepsilon^{2}}(-4\varepsilon^{4}+12\varepsilon^{2}-3)]$
+% 
+% $\int_{-1}^{1}e^{-x^{2}}dx=1.5785+\frac{2}{45}e^{-\varepsilon^{2}}(-4\varepsilon^{4}+12\varepsilon^{2}-3)$
+% 
+% en $-1<\varepsilon<1$
+% 
+% *REGLA DE 3/8 DE SIMPSON*
+% 
+% En esta regla se considera a n=3 y por lo tanto se consiguen los
+% siguientes datos:
+% 
+% $x_{0}=a$
+% 
+% $x_{3}=b$
+% 
+% $x_{i}=-1+i$
+% 
+% $h=\frac{(b-a)}{3}$
+% 
+% $i=0,1,2,3$
+% 
+% y la siguiente fórmula:
+% 
+% $\int_{x_0}^{x_3}f(x)dx=\frac{3h}{8}[f(x_0)+3f(x_1)+3f(x_2)+f(x_3)]-\frac{3h^{5}}{80}{f}^{(4)}(\varepsilon)$
+% 
+% Y como en los casos anteriores el $\varepsilon$ es un numero entre el numero
+% inicial y el final.
+% 
+% Ahora tratando de resolver el problema de $e^{-x^{2}}$ se tienen los siguientes
+% datos:
+% 
+% $x_{0}=-1$
+% 
+% $x_{3}=1$
+% 
+% $x_{1}=-1+\frac{2}{3}=-\frac{1}{3}$
+% 
+% $x_{2}=-1+\frac{4}{3}=\frac{1}{3}$
+% 
+% $x_{i}=-1+\frac{2}{3}i$
+% 
+% $h=\frac{1-(-1)}{3}=\frac{2}{3}$
+% 
+% $i=0,1,2,3$
+% 
+% Sustituyendo los datos en la fórmula se obtiene lo siguiente:
+% 
+% $\int_{-1}^{1}e^{-x^{2}}dx=\frac{3}{8}(\frac{2}{3})[e^{-1}+3e^{-\frac{1}{4}}+3e^{-\frac{1}{4}}+e^{-1}]-\frac{3}{80}(\frac{2}{3})^{5}e^{-\varepsilon^{2}}(-4\varepsilon^{2}+12\varepsilon^{2}-3)$
+% 
+% $\int_{-1}^{1}e^{-x^{2}}dx=1.5261-\frac{8}{405}e^{-\varepsilon^{2}}(-4\varepsilon^{2}+12\varepsilon^{2}-3)$
+% 
+% *REGLA COMPUESTA DEl TRAPECIOS*
+% 
+% Esta regla define la siguiente aproximación
+% 
+% $\int_{x_0}^{x_1}f(x)dx\approx \frac{h}{2}[f(x_0)+f(x_1)]$
+% 
+% Para que esto sea una igualdad se le agrega el factor de error para que
+% quede de la siguiente manera:
+% 
+% $\int_{a}^{b}f(x)dx=\frac{h}{2}[f(a)+2\sum_{j=1}^{n-1}f(x_j)+f(b)]-\frac{b-a}{12}h^2{f}''(u)$
+% 
+% donde u $\epsilon$(a,b) y n es el número de intervalos
+% 
+% Además: $h=\frac{b-a}{n}$
+% 
+% y $x_j=a+jh$; donde $j=0,1,2,3,...,n$
+% 
+% Para resolver el problema de $e^{-x^{2}}$ se tienen los siguientes
+% datos:
+% 
+% n=10
+% 
+% $h=\frac{1-(-1)}{10}=0.2$
+% 
+% $j=0,1,2,3,...,10$
+% 
+% y $x_0=-1$; $x_1=-0.8$; $x_2=-0.6$; ... $x_9=0.8$; $x_10=1$
+% 
+% Sustituyendo datos nos queda:
+% 
+% $\int_{1}^{-1}e^{-x^{2}}dx=\frac{0.2}{2}[e^{-1}+2\sum_{j=1}^{n-1}e^{-x_j^{2}}+e^{-1}]-\frac{2}{12}(0.2)^2[-2e^{-u^{2}}(1-2u^2)]$
+% 
+% $1.4887+0.0133e^{-u^{2}}(1-2u^2)$
+% 
+% *REGLA COMPUESTA DE SIMPSON*
+% 
+% Esta regla define la siguiente aproximación
+% 
+% $\int_{x_0}^{x_2}f(x)dx\approx \frac{h}{3}[f(x_0)+4f(x_1)+f(x_2)]$
+% 
+% Para que esto sea una igualdad se le agrega el factor de error para que
+% quede de la siguiente manera:
+% 
+% $\int_{a}^{b}f(x)dx=\frac{h}{3}[f(a)+2\sum_{j=1}^{(n/2)-1}f(x_2j)+4\sum_{j=1}^{n/2}f(x_2j-1)+f(b)]-\frac{b-a}{180}h^4{f}^{(4)}(u)$
+% 
+% donde u $\epsilon$(a,b) y n es el par número de intervalos
+% 
+% Además: $h=\frac{b-a}{n}$ (paso)
+% 
+% y $x_j=a+jh$; donde $j=0,1,2,...,n$
+% 
+% Para resolver el problema de $e^{-x^{2}}$ se tienen los siguientes
+% datos:
+% 
+% n=10
+% 
+% $h=\frac{1-(-1)}{10}=0.2$
+% 
+% $j=0,1,2,3,...,10$
+% 
+% y $x_0=-1$; $x_1=-0.8$; $x_2=-0.6$; ... $x_9=0.8$; $x_10=1$
+% 
+% Sustituyendo datos nos queda:
+% 
+% $\int_{-1}^{1}e^{-x^{2}}dx=\frac{0.2}{3}[e^{-1}+2\sum_{j=1}^{4}e^{-x_{2j}^{2}}+4\sum_{j=1}^{5}e^{-x_{2j-1}^{2}}+e^{-1}]-\frac{2}{180}(0.2)^4[-4e^{-u^{2}}(-4u^4+12u^2-3)]$
+% 
+% $\int_{-1}^{1}e^{-x^{2}}dx=1.4936+0.000021e^{-u^{2}}(-4u^4+12u^2-3)$
+% 
+% donde $-1< u< 1$
+% 
+% *CUADRATURA GAUSSIANA*
+% 
+% Esta regla define la siguiente aproximación
+% 
+% $\int_{a}^{b}f(x)dx\approx \sum_{i=1}^{n}C_if(x_i)$
+% 
+% donde 2n son los parámetros.
+% 
+% Se usan polinomios de Legendre, en vex de polinomios de Lagrange; estos
+% polinomios son polinomios que se ocupan en (-1,1).
+% 
+% Resultados de los polinomios de Legendre.
+% 
+% Si $P_n(x)$ es un polinomios de Legendre de grado n, sus raíces son reales
+% y son ($x_1$,$x_2$,...,$x_n$).
+% 
+% Además: $C_i=\int_{1}^{-1}\prod_{n}^{j=1}\frac{x-x_j}{x_c-x_j}dx$
+% 
+% Así que, $\int_{-1}^{1}P(x)dx=\sum_{i=1}^{n}C_iP(x_i)$
+% 
+% donde $j\neq i$ y P(x)es un polinomio de grado menor que 2n.
+% 
+% Ahora para resolver el problema de $e^{-x^{2}}$, se tiene que
+% 
+% $\int_{-1}^{1}f(x)dx\approx \sum_{i=1}^{n}C_iP(x_i)$
+% 
+% $t=\frac{2x-a-b}{b-a}$; por lo tanto $x=\frac{1}{2}[(b-a)t+a+b]$
+% 
+% Sustituyendo datos
+%  
+% $\int_{-1}^{1}e^{-x^{2}}dx\approx
+% e^{-(0.5773502692)^2}+e^{-(0.5773502692)^2}$
+% 
+% $\int_{-1}^{1}e^{-x^{2}}dx\approx 1.4331$
+% 
+% $\int_{-1}^{1}e^{-x^{2}}dx\approx
+% 0.5555555556e^{-(0.7745466692)^2}+0.8888888889+0.5555555556e^{-(0.7745466692)^2}$
+% 
+% $\int_{-1}^{1}e^{-x^{2}}dx\approx 1.4986$
+% 
+%% Desarrollo
+%%
+% *Problema 1.* Para el PR04 reporte la grafica de la simulación númerica 
+% de la convolución y compare con el resultado análitico que obtuvo para el
+% problema 1, esto es, su práctica tendrá que incluir una llamada a la
+% funciónn convconm y posteriormente se tendrá que mostrar (mediante el
+% Publish) la gráfica tanto de las señales involucradas como el resultado
+% de la convolución, y en esta última gráficara su resultado analitico, se
+% tendrá que incluir el resultado analitico.
+% 
+x = @(t) exp(-t).*(t>=0&t<1);
+h = @(t) t.*(t>=-1&t<1);
+convconm(x,h)
+%% 
+% Gif de la simulación:
+%
+% <<C:\Users\Usuario\Desktop\Josué\3er Semestre\ASyS\Práctica04\html\P04_1.gif>>
+%
+%%
+% *Problema 2.* Para el PR05 reporte la grafica de la simulación númerica
+% de la correalción y compare con el resultado análitico que obtuvo para el
+% problema e), esto es, su práctica tendrá que incluir una llamada a la
+% funciónn convconm y posteriormente se tendrá que mostrar (mediante el
+% Publish) la gráfica tanto de las señales involucradas como el resultado
+% de su correlación, y en esta última graficara su resultado analitico, se
+% tendrá que incluir el resultado analitico.
+% 
+x = @(t) heaviside(t) - 2*heaviside(t-3) + heaviside(t-4);
+h = @(t) x(-t);
+convconm(x,h)
+%% 
+% Gif de la simulación:
+%
+% <<C:\Users\Usuario\Desktop\Josué\3er Semestre\ASyS\Práctica04\html\P04_2.gif>>
+%
+%%
+% *Problema 3.* Realice la simuación de la convolución de las señales (c)
+% con (d) del problema 3.1.1.
+% 
+nc = -3:3;
+c = @(n) 3*n.*(n>=-3&n<=3);
+nd = -2:2;
+d = @(n) -2*n.*(n>=-2&n<=0) + 2*n.*(n>=0&n<=2);
+convdisc([nc;c(nc)],[nd;d(nd)])
+%% 
+% Gif de la simulación:
+%
+% <<C:\Users\Usuario\Desktop\Josué\3er Semestre\ASyS\Práctica04\html\P04_3.gif>>
+%
+%%
+% *Problema 4.* Realice la simulación de la correlación de las señales (c)
+% con (d) del problema 3.1.1.
+% 
+nc = -3:3;
+c = @(n) 3*n.*(n>=-3&n<=3);
+nd = -2:2;
+d = @(n) -2*n.*(n>=-2&n<=0) + 2*n.*(n>=0&n<=2);
+d1 = @(n) d(-n);
+convdisc([nc;c(nc)],[nd;d1(nd)])
+%% 
+% Gif de la simulación:
+%
+% <<C:\Users\Usuario\Desktop\Josué\3er Semestre\ASyS\Práctica04\html\P04_4.gif>>
+%
+%%
+% *Problema 5.* Realice la la convolución de las señales (c) con (d) del
+% problema 3.1.1 utilizando el comando conv de MATLAB, muestre el código
+% utilizado y gráfique el resultado, sugerencia: Utilice las propiedades de
+% traslación de la convolución.
+% 
+C=@(n) (3*n).*(n>=-3 & n<=3);
+D=@(n) ((-2*n).*(n>=-2 & n<0))+((2*n).*(n>=0 & n<=2));
+N=-6:1:6;
+W=conv(C(N),D(-N),'same');
+stem(N,W)
+
+%% Apéndices
+% 
+% Código de función convconm.
+% 
+%   function convconm(x,h)
+%   figure (1) % Se crea una figura para hacer las gráficas
+%   dtau = 0.005; % Base de los rectangulos para realizar la integral 
+%   tau = -1:dtau:4; % Intervalo de visualización del resultado
+%   ti = 0; % Indice para el vector de resultados
+%   tvec = -.25:.1:3.75; % traslaciones de t, cuantas integrales se calulan  
+%   y = NaN*zeros(1, length (tvec)); % Resultados de acuerdo a cuantos t
+%   for t = tvec, % Cantidad de traslaciones
+%       ti = ti+1; % Indice para guardar el resultado (indice del tiempo)
+%       xh = x(t-tau).*h(tau); % resultado de la multiplicación 
+%       lxh = length(xh); % longitud del resultado
+%       y(ti) = sum(xh.*dtau); % Base por altura, aproximación de la integral
+%       subplot (2,1,1), % gráfica de 2 x 1 (primera)
+%       plot(tau, h(tau), 'r-', tau, x(t-tau), 'gREPLACE_WITH_DASH_DASH', t, 0, 'ob'); %graficas 
+%       axis ([tau(1) tau(end) -2.0 2.5]); % límites de los ejes
+%       patch([tau(1:end-1); tau(1:end-1); tau(2:end); tau(2:end)],...
+%       [zeros(1,lxh-1);xh(1:end-1);xh(2:end);zeros(1,lxh-1)],...
+%       [.8 .8 .8], 'edgecolor', 'none');
+%       xlabel('\tau'); % Texto del eje X
+%       legend('h(\tau)', 'x(t-\tau)','t','h(\tau)x(t-\tau)')% Caja de Texto  
+%       subplot (2, 1, 2)  % gráfica de 2 x 1 (segunda)
+%       plot (tvec, y, 'k', tvec (ti), y(ti), 'ok');
+%       xlabel ('t'); 
+%       ylabel ('y(t) = \int h(\tau)x(t-\tau) d\tau');
+%       axis ([tau(1) tau(end) -1.0 2.0]); % límites del eje
+%       grid; % malla
+%       drawnow; % efecto de movimiento continuo
+%   end
+%   end
+% 
+% Código de función convdisc.
+% 
+%   function convdisc(x1,x2)
+%   Tam1 = size(x1(1,:));
+%   Tam2 = size(x2(1,:));
+%   T1 = Tam1(2);
+%   T2 = Tam2(2);
+%   T3 = T1+T2-1;
+%   vec1 = zeros(1,T1+2*T2-2);
+%   vec2 = zeros(1,T1+2*T2-2);
+%   Tec2 = -(T2-1):(T1+T2-2);
+%   size(vec2);
+%   size(Tec2);
+%   zeros(2,T3);
+%   x3(1,:)=0:T3-1;
+%   x3(1,:)=x3(1,:)+x1(1,1)+x2(1,1);
+%   vec1(1,T2:T2+T1-1)=x1(2,:);
+%   figure (1)
+%   hFig = figure(1);
+%   set(hFig, 'Position', [0 0 1000 1000])
+%   filename = 'testAnimated.gif';
+%   ttt=1;
+%   for m=0:T1+T2-2
+%       vec2(1,1+m:T2+m)=fliplr(x2(2,:));
+%       x3(2,m+1)=sum(vec1.*vec2);
+%       subplot(4,1,4)
+%       stem(x3(1,:),x3(2,:),'r','LineWidth',3)
+%       axis([Tec2(1),T1+2*T2-2,  min(x3(2,:))-1 max(x3(2,:))+1])
+%       ylim('auto')
+%       ylabel('x_3[n]','FontWeight','bold','FontSize',16);
+%       xlabel('n','FontWeight','bold','FontSize',16);
+%       grid on
+%       subplot(4,1,1)
+%       stem(x2(1,:),x2(2,:),'k','LineWidth',3)
+%       ylabel('x_2[m]','FontWeight','bold','FontSize',16);
+%       xlabel('m','FontWeight','bold','FontSize',16);
+%       title('CONVOLUCIóN','FontWeight','bold','FontSize',16);
+%       grid on
+%       axis([Tec2(1),T1+2*T2-2, min(x2(2,:))-1 max(x2(2,:))+1])
+%       ylim('auto')
+%       subplot(4,1,2)
+%       stem(x1(1,:),x1(2,:),'b','LineWidth',3)
+%       ylabel('x_1[m]','FontWeight','bold','FontSize',16);
+%       xlabel('m','FontWeight','bold','FontSize',16);
+%       grid on
+%       axis([Tec2(1),T1+2*T2-2, min(x1(2,:))-1 max(x1(2,:))+1])
+%       ylim('auto')
+%       subplot(4,1,3)
+%       stem(Tec2,vec2(1,:),'g','LineWidth',3)
+%       axis([Tec2(1),T1+2*T2-2,min(vec2)-1, max(vec2)+1 ])
+%       ylim('auto')
+%       ylabel('x_2[n-m]','FontWeight','bold','FontSize',16);
+%       xlabel('m','FontWeight','bold','FontSize',16);
+%       grid on
+%       drawnow;
+%       pause(0.4)
+%       vec2 = zeros(1,T1+2*T2-2);
+%       frame = getframe(hFig); 
+%       im = frame2im(frame); 
+%       [imind,cm] = rgb2ind(im,256); 
+%       % Write to the GIF File 
+%       if ttt == 1 
+%           imwrite(imind,cm,filename,'gif', 'Loopcount',inf); 
+%       else 
+%           imwrite(imind,cm,filename,'gif','WriteMode','append'); 
+%       end
+%       ttt=ttt+1;
+%   end
+%   end
+% 
+%% Referencias
+% 
+% * B. P. Lathi. (2005). Linear Systems and Signals. 198 Madison Avenue,
+% New York, New York 10016: Oxford University Press.
+% * Martínez, R. [Mate y así] (2018, Abril 1). "Métodos numéricos: Teorema
+% fundamental del Cálculo, Integración 1". Recuperado de:
+% <https://www.youtube.com/watch?v=OFHAN-WwLEw&list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&index=1>
+% * Martínez, R. [Mate y así] (2018, Abril 1). "Métodos numéricos: Newton-Cotes,
+% regla del trapecio, Integración 2". Recuperado de:
+% <https://www.youtube.com/watch?v=Fe79KWPf0Do&list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&index=2>
+% * Martínez, R. [Mate y así] (2018, Abril 1). "Métodos numéricos: Newton-Cotes,
+% regla de Simpson, regla de 3/8 de Simpson, Integración 3". Recuperado de:
+% <https://www.youtube.com/watch?v=Ykgdo9Sr354&list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&index=3>
+% * Martínez, R. [Mate y así] (2018, Abril 1). "Métodos numéricos: regla del
+% trapecio compuesta , regla de Simpson compuesta, Integración 4". Recuperado de:
+% <https://www.youtube.com/watch?v=UJMZviPb6GE&list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&index=4>
+% * Martínez, R. [Mate y así] (2018, Abril 1). "Métodos numéricos: Cuadratura
+% Gaussiana, Integración 5". Recuperado de:
+% <https://www.youtube.com/watch?v=6i4N328QbpY&list=PLSC7gO5dTNPewJkJ5Zh3Y7xHfy_fnDKqD&index=5>
+##### SOURCE END #####
+--></body></html>
